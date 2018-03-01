@@ -93,10 +93,10 @@ def dist(pos1: Pos, pos2: Pos)->float:
     return abs(pos1.r - pos2.r) + abs(pos1.c - pos2.c)
 
 
-def compute_score(schedule: Schedule, max_t: int):
+def compute_score(schedule: Schedule, max_t: int)->int:
     return compute_score_completed_rides(schedule.to_completed_rides(), max_t=max_t)
 
 
-def compute_score_completed_rides(completed_rides: List[CompletedRide], max_t: int):
+def compute_score_completed_rides(completed_rides: List[CompletedRide], max_t: int)->int:
     return sum(cr.score(max_t=max_t) for cr in completed_rides)
 
