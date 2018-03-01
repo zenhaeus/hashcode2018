@@ -1,4 +1,7 @@
 from typing import Generator, Iterable, List
+from collections import namedtuple
+
+Pos = namedtuple('Pos', ['r', 'c'])
 
 
 def flatten(l: Iterable)->List:
@@ -39,3 +42,7 @@ def flatten_gen(l: Iterable)->Generator:
             yield from flatten_gen(el)
         else:
             yield el
+
+
+def dist(pos1: Pos, pos2: Pos)->float:
+    return abs(pos1.r - pos2.r) + abs(pos1.c - pos2.c)
