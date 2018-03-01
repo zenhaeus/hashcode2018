@@ -48,6 +48,9 @@ class Schedule:
 
         return completed_rides
 
+    def to_car_ride_nbrs(self):
+        return [[r.num for r in rides] for rides in self.car_list]
+
 
 def flatten(l: Iterable)->List:
     """

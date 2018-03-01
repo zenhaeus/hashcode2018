@@ -1,6 +1,8 @@
 import sys
-from utils import *
 import datetime as dt
+
+from utils import *
+
 
 def read_data(in_data):
     examples = {
@@ -25,6 +27,7 @@ def read_data(in_data):
         rides.append(Ride(i, s, f, sp, ep))
 
     return R, C, F, N, B, T, rides
+
 
 def write_submission(out_data, out_name="submission"):
     f = open("./outputs/{}_{}.out".format(out_name, dt.datetime.today().replace(microsecond=0)), 'w')
