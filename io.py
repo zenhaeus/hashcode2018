@@ -15,7 +15,7 @@ def read_data(in_data):
     f = open(fpath, 'r')
     data = f.readlines()
 
-    R, C, F, N, B, T = data[0].split()
+    R, C, F, N, B, T = map(int, data[0].split())
 
     rides = []
     for i, line in enumerate(data[1:]):
