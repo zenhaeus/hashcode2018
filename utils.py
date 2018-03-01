@@ -5,6 +5,19 @@ Pos = namedtuple('Pos', ['r', 'c'])
 Ride = namedtuple('Ride', ['st' 'et', 'sp', 'ep'])
 
 
+class CompletedRide(namedtuple('CompletedR', ['ride', 'pt', 'dt'])):  # pickup time, deliver time
+
+    def __init__(self, ride: Ride, pt: int, dt: int):
+        assert isinstance(ride, Ride)
+        assert isinstance(pt, int)
+        assert isinstance(dt, int)
+
+    def score(self):
+        if self.ride.et <= self.dt:
+            return 0
+        return dist(self.ride.st, self.ride.et) + (2 if self.pt == self.ride.st else 0)
+
+
 def flatten(l: Iterable)->List:
     """
 
@@ -47,3 +60,8 @@ def flatten_gen(l: Iterable)->Generator:
 
 def dist(pos1: Pos, pos2: Pos)->float:
     return abs(pos1.r - pos2.r) + abs(pos1.c - pos2.c)
+
+
+def compute_score_completed_rides(completed_rides: List[CompletedRide]):
+    return sum(cr.score() for cr in completed_rides)
+
