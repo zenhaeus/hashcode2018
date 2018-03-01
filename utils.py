@@ -2,7 +2,7 @@ from typing import Generator, Iterable, List
 from collections import namedtuple
 
 Pos = namedtuple('Pos', ['r', 'c'])
-Ride = namedtuple('Ride', ['st' 'et', 'sp', 'ep'])
+Ride = namedtuple('Ride', ['st', 'et', 'sp', 'ep'])
 
 
 class CompletedRide(namedtuple('CompletedR', ['ride', 'pt', 'dt'])):  # pickup time, deliver time
@@ -12,10 +12,41 @@ class CompletedRide(namedtuple('CompletedR', ['ride', 'pt', 'dt'])):  # pickup t
         assert isinstance(pt, int)
         assert isinstance(dt, int)
 
-    def score(self):
-        if self.ride.et <= self.dt:
+    def score(self, max_t: int):
+        if self.ride.et <= self.dt or self.ride.et > max_t:
             return 0
         return dist(self.ride.st, self.ride.et) + (2 if self.pt == self.ride.st else 0)
+
+
+class Schedule:
+
+    def __init__(self, nbr_cars: int):
+        self.car_list: List[List[Ride]] = [list() for _ in range(nbr_cars)]
+
+    def schedule_of_car(self, num: int):
+        return self.car_list[num]
+
+    def add_ride_to_car(self, ride: Ride, car_num: int):
+        self.car_list[car_num].append(ride)
+
+    def to_completed_rides(self, cars_start_pos: Pos=Pos(0, 0))->List[CompletedRide]:
+        """
+        Takes all sheduled rides and executes them
+        :return: List of all completed rides in the schedule
+        """
+        completed_rides = list()
+        for cl in self.car_list:
+            cpos = cars_start_pos
+            _t = 0
+            for ride in cl:
+                _t += dist(cpos, ride.sp)
+                pt = _t  # pickup time
+                _t += dist(ride.sp, ride.ep)
+                dt = _t # delivery time
+                completed_rides.append(CompletedRide(ride=ride, pt=pt, dt=dt))
+                cpos = ride.ep  # update position
+
+        return completed_rides
 
 
 def flatten(l: Iterable)->List:
@@ -62,6 +93,10 @@ def dist(pos1: Pos, pos2: Pos)->float:
     return abs(pos1.r - pos2.r) + abs(pos1.c - pos2.c)
 
 
-def compute_score_completed_rides(completed_rides: List[CompletedRide]):
-    return sum(cr.score() for cr in completed_rides)
+def compute_score(schedule: Schedule, max_t: int):
+    return compute_score_completed_rides(schedule.to_completed_rides(), max_t=max_t)
+
+
+def compute_score_completed_rides(completed_rides: List[CompletedRide], max_t: int):
+    return sum(cr.score(max_t=max_t) for cr in completed_rides)
 
