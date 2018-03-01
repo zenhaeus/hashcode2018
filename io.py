@@ -26,7 +26,7 @@ def read_data(in_data):
 
     return R, C, F, N, B, T, rides
 
-def write_submission(out_data, out_name="submission.out"):
+def write_submission(out_data, out_name="submission"):
     f = open("./outputs/{}_{}.out".format(out_name, dt.datetime.today().replace(microsecond=0)), 'w')
     for car in out_data:
         f.write(str(len(car)) + " ")
