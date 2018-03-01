@@ -1,5 +1,6 @@
 import sys
 from utils import *
+import datetime as dt
 
 def read_data(in_data):
     examples = {
@@ -25,9 +26,20 @@ def read_data(in_data):
 
     return R, C, F, N, B, T, rides
 
-def write_submission(out_data):
+def write_submission(out_data, out_name="submission.out"):
+    f = open("./outputs/{}_{}.out".format(out_name, dt.datetime.today().replace(microsecond=0)), 'w')
     for car in out_data:
-        print(len(car), end=" ")
+        f.write(str(len(car)) + " ")
         for ride in car:
-            print(ride, end=" ")
-        print()
+            f.write(str(ride) + " ")
+        f.write('\n')
+    f.close()
+
+"""
+sample_out = [
+        [0, 1, 2],
+        [2, 4],
+        [2, 6, 7, 1]
+]
+write_submission(sample_out)
+"""
