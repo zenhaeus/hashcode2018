@@ -24,3 +24,10 @@ def read_data(in_data):
         rides.append(Ride(i, s, f, sp, ep))
 
     return R, C, F, N, B, T, rides
+
+def write_submission(out_data):
+    for car in out_data:
+        print(len(car), end=" ")
+        for ride in car:
+            print(ride, end=" ")
+        print()
