@@ -2,7 +2,7 @@ from typing import Generator, Iterable, List
 from collections import namedtuple
 
 Pos = namedtuple('Pos', ['r', 'c'])
-Ride = namedtuple('Ride', ['st', 'et', 'sp', 'ep'])
+Ride = namedtuple('Ride', ['num', 'st', 'et', 'sp', 'ep'])
 
 
 class CompletedRide(namedtuple('CompletedR', ['ride', 'pt', 'dt'])):  # pickup time, deliver time
@@ -42,7 +42,7 @@ class Schedule:
                 _t += dist(cpos, ride.sp)
                 pt = _t  # pickup time
                 _t += dist(ride.sp, ride.ep)
-                dt = _t # delivery time
+                dt = _t  # delivery time
                 completed_rides.append(CompletedRide(ride=ride, pt=pt, dt=dt))
                 cpos = ride.ep  # update position
 
