@@ -2,6 +2,7 @@ from typing import Generator, Iterable, List
 from collections import namedtuple
 
 Pos = namedtuple('Pos', ['r', 'c'])
+Ride = namedtuple('Ride', ['st' 'et', 'sp', 'ep'])
 
 
 def flatten(l: Iterable)->List:
