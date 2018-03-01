@@ -12,10 +12,10 @@ class CompletedRide(namedtuple('CompletedR', ['ride', 'pt', 'dt'])):  # pickup t
         assert isinstance(pt, int)
         assert isinstance(dt, int)
 
-    def score(self, max_t: int):
+    def score(self, max_t: int, bonus: int):
         if self.ride.et <= self.dt or self.ride.et > max_t:
             return 0
-        return dist(self.ride.st, self.ride.et) + (2 if self.pt == self.ride.st else 0)
+        return dist(self.ride.st, self.ride.et) + (bonus if self.pt == self.ride.st else 0)
 
 
 class Schedule:
@@ -93,10 +93,9 @@ def dist(pos1: Pos, pos2: Pos)->float:
     return abs(pos1.r - pos2.r) + abs(pos1.c - pos2.c)
 
 
-def compute_score(schedule: Schedule, max_t: int)->int:
-    return compute_score_completed_rides(schedule.to_completed_rides(), max_t=max_t)
+def compute_score(schedule: Schedule, bonus: int, max_t: int)->int:
+    return sum(cr.score(max_t=max_t, bonus=bonus) for cr in schedule.to_completed_rides())
 
 
-def compute_score_completed_rides(completed_rides: List[CompletedRide], max_t: int)->int:
-    return sum(cr.score(max_t=max_t) for cr in completed_rides)
+
 

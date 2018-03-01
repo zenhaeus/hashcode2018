@@ -18,7 +18,7 @@ def read_data(in_data):
 
     rides = []
     for i, line in enumerate(data[1:]):
-        a, b, x, y, s, f = line.split()
+        a, b, x, y, s, f = map(int, line.split())
         sp = Pos(a, b)
         ep = Pos(x, y)
         rides.append(Ride(i, s, f, sp, ep))
