@@ -11,11 +11,12 @@ class CompletedRide(namedtuple('CompletedR', ['ride', 'pt', 'dt'])):  # pickup t
         assert isinstance(ride, Ride)
         assert isinstance(pt, int)
         assert isinstance(dt, int)
+        assert pt < dt
 
     def score(self, max_t: int, bonus: int):
         if self.ride.et <= self.dt or self.ride.et > max_t:
             return 0
-        return dist(self.ride.st, self.ride.et) + (bonus if self.pt == self.ride.st else 0)
+        return dist(self.ride.sp, self.ride.ep) + (bonus if self.pt == self.ride.st else 0)
 
 
 class Schedule:
@@ -50,6 +51,9 @@ class Schedule:
 
     def to_car_ride_nbrs(self):
         return [[r.num for r in rides] for rides in self.car_list]
+
+    def __str__(self):
+        return f'{self.__class__.__name__}(\n  '+'\n  '.join(map(str, self.to_car_ride_nbrs()))+'\n)'
 
 
 def flatten(l: Iterable)->List:
